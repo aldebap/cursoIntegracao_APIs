@@ -1,0 +1,8 @@
+#   vscode files
+.vscode/*
+
+#   build output dir
+bin/**
+
+#   node packages dir
+node_modules/**

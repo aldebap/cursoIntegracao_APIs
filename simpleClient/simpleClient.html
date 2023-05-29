@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Simple REST API Client</title>
+
+    <link rel="stylesheet" href="/simpleClient/css/bootstrap.min.css">
+    </link>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script type="text/javascript" src="/simpleClient/js/axios.min.js"></script>
+
+    <script content="text/javascript">
+        container = document.getElementById('container');
+
+        //  send a request to the server
+        axios.get('http://localhost:8088/api/v1/hello')
+            .then(response => {
+                const message = response.data.message;
+
+                container.append('<div class="alert alert-success" role="alert">'
+                    + message
+                    + '</div>')
+            })
+            .catch(error => {
+                container.append('<div class="alert alert-danger d-flex align-items-center" role="alert">'
+                    + '<div>&nbsp;Erro ao chamar o API: ' + error + '</div>'
+                    + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
+                    + '</div>');
+                console.error('Erro ao chamar o API', error)
+            });
+    </script>
+</body>
+
+</html>
