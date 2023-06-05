@@ -1,3 +1,5 @@
 #!  /usr/bin/ksh
 
 curl 'http://viacep.com.br/ws/01001000/json/'
+
+curl -X POST 'https://api-homologacao.getnet.com.br/v1/customers' -H 'authorization: Bearer 151f3061-d162-41c0-a3e7-474c49e60f57' -H 'cache-control: no-cache' -H 'content-type: application/json; charset=utf-8' -H 'seller_id: 6eb2412c-165a-41cd-b1d9-76c575d70a28' -d '{\n      \"seller_id\": \"6eb2412c-165a-41cd-b1d9-76c575d70a28\",\n      \"customer_id\": \"customer_21081826\",\n      \"first_name\": \"João\",\n      \"last_name\": \"da Silva\",\n      \"document_type\": \"CPF\",\n      \"document_number\": \"12345678912\",\n      \"birth_date\": \"1976-02-21\",\n      \"phone_number\": \"5551999887766\",\n      \"celphone_number\": \"5551999887766\",\n      \"email\": \"customer@email.com.br\",\n      \"observation\": \"O cliente tem interesse no plano x.\",\n      \"address\": {\n        \"street\": \"Av. Brasil\",\n        \"number\": \"1000\",\n        \"complement\": \"Sala 1\",\n        \"district\": \"São Geraldo\",\n        \"city\": \"Porto Alegre\",\n        \"state\": \"RS\",\n        \"country\": \"Brasil\",\n        \"postal_code\": \"90230060\"\n    }\n  }\n"
