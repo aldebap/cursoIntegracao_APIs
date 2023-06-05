@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "ad97ae22-a723-40a5-b50d-c1ae0cd6f4eb",
+		"name": "Curso Gateway APIs (Impacta)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2006649",
+		"_collection_link": "https://getnetdigital.postman.co/workspace/Curso-de-Postman~98ff1d0e-fffe-450f-9bf2-78f601445463/collection/2006649-ad97ae22-a723-40a5-b50d-c1ae0cd6f4eb?action=share&creator=2006649&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Teste do servidor simples (Java)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/hello",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar produto (OK)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"codigo\": \"1234\",\n    \"descricao\": \"teclado\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar produto (Codigo Inexistente)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"descricao\": \"teclado\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar produto (Descrição Inexistente)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"codigo\": \"1234\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar produto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/1234",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar produto (Codigo Inexistente)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/123456",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						"123456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar lista de produtos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar produto",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"descricao\": \"monitor\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/1234",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar produto (Codigo Inexistente)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"descricao\": \"monitor\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/123456",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						"123456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar produto (Descrição Inexistente)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/1234",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir produto",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"descricao\": \"monitor\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/1234",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir produto (Codigo Inexistente)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"descricao\": \"monitor\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/produto/123456",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"produto",
+						"123456"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
