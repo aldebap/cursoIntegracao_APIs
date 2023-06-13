@@ -7,28 +7,28 @@ public class Produto {
     private String codigo;
     private String descricao;
 
+    public UUID getId() {
+        return id;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
 
-    public UUID getId() {
-        return this.id;
+    public String getCodigo() {
+        return codigo;
     }
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
-    public String getCodigo() {
-        return this.codigo;
+    public String getDescricao() {
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public String getDescricao() {
-        return this.descricao;
     }
 
     public Produto() {

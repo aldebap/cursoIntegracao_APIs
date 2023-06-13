@@ -8,6 +8,451 @@
 	},
 	"item": [
 		{
+			"name": "Gateway API (Kong)",
+			"item": [
+				{
+					"name": "Rotas para o serviço Produto",
+					"item": [
+						{
+							"name": "Criar produto via Gateway (OK)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"codigo\": \"3456\",\n    \"descricao\": \"monitor\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8000/v1/gateway/produto",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"v1",
+										"gateway",
+										"produto"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recuperar produto via Gateway",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8000/v1/gateway/produto/1234",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"v1",
+										"gateway",
+										"produto",
+										"1234"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recuperar lista de produtos via Gateway",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8000/v1/gateway/produto",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"v1",
+										"gateway",
+										"produto"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recuperar lista de produtos via Gateway (seguro)",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "d5a37fa6-b033-4107-a29f-ebf51b443968",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "apikey",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8000/v1/seguro/produto",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"v1",
+										"seguro",
+										"produto"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Status do Gateway",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001",
+							"host": [
+								"localhost"
+							],
+							"port": "8001"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar  serviço: Produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Produtos\",\n    \"url\": \"http://192.168.68.112:8080/api/v1/produto\",\n    \"enabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/services",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar os serviços",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/services/531b80ae-a0b0-4f23-98e0-b91fad63c400",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"services",
+								"531b80ae-a0b0-4f23-98e0-b91fad63c400"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir  serviço: Produto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/services/Produtos",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"services",
+								"Produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar  rota: Produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"produto\",\n    \"protocols\": [\"http\", \"https\"],\n    \"methods\": [\"GET\", \"POST\", \"PATCH\", \"DELETE\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/gateway/produto\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"531b80ae-a0b0-4f23-98e0-b91fad63c400\"}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/routes",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar os endpoints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/endpoints",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"endpoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir  rota: Produto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"produto\",\n    \"protocols\": [\"http\", \"https\"],\n    \"methods\": [\"GET\", \"POST\", \"PATCH\", \"DELETE\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/gateway/produto\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"b597608c-2f3f-430a-9c1d-36b3659010f8\"}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/routes/produto",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes",
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar  consumidor: cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"postman\",\n    \"tags\": [\"user-level\", \"low-priority\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/consumers",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"consumers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar API key",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"d5a37fa6-b033-4107-a29f-ebf51b443968\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/consumers/postman/key-auth",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"consumers",
+								"postman",
+								"key-auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar rota segura: Produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"produto-seguro\",\n    \"protocols\": [\"http\", \"https\"],\n    \"methods\": [\"GET\", \"POST\", \"PATCH\", \"DELETE\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/seguro/produto\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"531b80ae-a0b0-4f23-98e0-b91fad63c400\"}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/routes",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar a rota segura: Produto",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"produto-seguro\",\n    \"protocols\": [\"http\", \"https\"],\n    \"methods\": [\"GET\", \"POST\", \"PATCH\", \"DELETE\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/seguro/produto\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"64f02839-521b-499e-afbb-0af8c968158b\"}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/routes/produto-seguro",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes",
+								"produto-seguro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar  plugin: autenticação",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"key-auth\",\n    \"route\": {\n        \"id\": \"82eea98f-5442-40ac-9889-a655ab647606\"\n    },\n    \"config\": {\n        \"key_names\": [\"apikey\"]\n    },\n    \"enabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/plugins",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recuperar lista de plugins",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/plugins",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar os status (HC)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/status",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Teste do servidor simples (Java)",
 			"request": {
 				"method": "GET",
@@ -34,7 +479,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"codigo\": \"1234\",\n    \"descricao\": \"teclado\"\n}\n",
+					"raw": "{\n    \"codigo\": \"2345\",\n    \"descricao\": \"mouse\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -162,7 +607,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/produto/",
+					"raw": "localhost:8080/api/v1/produto",
 					"host": [
 						"localhost"
 					],
@@ -170,8 +615,7 @@
 					"path": [
 						"api",
 						"v1",
-						"produto",
-						""
+						"produto"
 					]
 				}
 			},
@@ -184,7 +628,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"descricao\": \"monitor\"\n}\n",
+					"raw": "{\n    \"descricao\": \"mouse\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -282,7 +726,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/produto/1234",
+					"raw": "localhost:8080/api/v1/produto/12345",
 					"host": [
 						"localhost"
 					],
@@ -291,7 +735,7 @@
 						"api",
 						"v1",
 						"produto",
-						"1234"
+						"12345"
 					]
 				}
 			},

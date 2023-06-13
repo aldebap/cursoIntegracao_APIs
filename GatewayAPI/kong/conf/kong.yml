@@ -1,0 +1,19 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: Produtos
+    protocol: http
+    host: 192.168.68.112
+    port: 8080
+    path: /api/v1/produto
+    routes:
+      - name: Produtos
+        methods:
+          - GET
+            POST
+            PATCH
+            DELETE
+        paths:
+          - /v1/gateway/produto
+        strip_path: true
