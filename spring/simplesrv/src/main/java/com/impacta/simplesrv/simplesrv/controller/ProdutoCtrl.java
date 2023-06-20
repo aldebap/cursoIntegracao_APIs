@@ -37,22 +37,30 @@ public class ProdutoCtrl {
         private String codigo;
         private String descricao;
         private String mensagem;
+        private String SKU;
+        private String categoria;
 
         public ProdutoResponse() {
             this.codigo = "";
             this.descricao = "";
+            this.SKU = "";
+            this.categoria = "";
             this.mensagem = null;
         }
 
         public ProdutoResponse(Produto produto) {
             this.codigo = produto.getCodigo();
             this.descricao = produto.getDescricao();
+            this.SKU = produto.getSKU();
+            this.categoria = produto.getCategoria();
             this.mensagem = null;
         }
 
         public ProdutoResponse(String mensagem) {
             this.codigo = null;
             this.descricao = null;
+            this.SKU = null;
+            this.categoria = null;
             this.mensagem = mensagem;
         }
 
@@ -70,6 +78,22 @@ public class ProdutoCtrl {
 
         public String getDescricao() {
             return this.descricao;
+        }
+
+        public String getSKU() {
+            return SKU;
+        }
+
+        public void setSKU(String sKU) {
+            this.SKU = sKU;
+        }
+
+        public void setCategoria(String categoria) {
+            this.categoria = categoria;
+        }
+
+        public String getCategoria() {
+            return categoria;
         }
 
         public void setMensagem(String mensagem) {

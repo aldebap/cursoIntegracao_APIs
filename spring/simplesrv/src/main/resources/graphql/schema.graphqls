@@ -1,0 +1,10 @@
+type Query {
+    produtoPorCodigo(codigo: String): Produto
+}
+
+type Produto {
+    codigo: String
+    descricao: String
+    SKU: String
+    categoria: String
+}
