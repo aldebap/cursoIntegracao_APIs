@@ -453,6 +453,152 @@
 			]
 		},
 		{
+			"name": "Mensageria (RabbitMQ)",
+			"item": [
+				{
+					"name": "Criar Produto (Codigo Inexistente)",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "guest",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "guest",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vhost\":\"/\",\n    \"name\":\"amq.default\",\n    \"properties\":{\n        \"delivery_mode\":1,\n        \"headers\":{}\n    },\n    \"routing_key\":\"com.impacta.messagingSrv.inserirProdutoQueue.req\",\n    \"payload\":\"{ \\\"curso\\\": \\\"mensageria\\\" }\",\n    \"payload_encoding\":\"string\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:15672/api/exchanges/%2F/amq.default/publish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "15672",
+							"path": [
+								"api",
+								"exchanges",
+								"%2F",
+								"amq.default",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Produto (Descrição Inexistente)",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "guest",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "guest",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vhost\":\"/\",\n    \"name\":\"amq.default\",\n    \"properties\":{\n        \"delivery_mode\":1,\n        \"headers\":{}\n    },\n    \"routing_key\":\"com.impacta.messagingSrv.inserirProdutoQueue.req\",\n    \"payload\":\"{ \\\"codigo\\\": \\\"1234\\\" }\",\n    \"payload_encoding\":\"string\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:15672/api/exchanges/%2F/amq.default/publish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "15672",
+							"path": [
+								"api",
+								"exchanges",
+								"%2F",
+								"amq.default",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Produto",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "guest",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "guest",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vhost\":\"/\",\n    \"name\":\"amq.default\",\n    \"properties\":{\n        \"delivery_mode\":1,\n        \"headers\":{}\n    },\n    \"routing_key\":\"com.impacta.messagingSrv.inserirProdutoQueue.resp\",\n    \"payload\":\"{ \\\"codigo\\\": \\\"1234\\\", \\\"descricao\\\": \\\"teclado\\\" }\",\n    \"payload_encoding\":\"string\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:15672/api/exchanges/%2F/amq.default/publish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "15672",
+							"path": [
+								"api",
+								"exchanges",
+								"%2F",
+								"amq.default",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Teste do servidor simples (Java)",
 			"request": {
 				"method": "GET",
@@ -479,7 +625,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"codigo\": \"2345\",\n    \"descricao\": \"mouse\"\n}\n",
+					"raw": "{\n    \"codigo\": \"1234\",\n    \"descricao\": \"teclado\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -596,6 +742,36 @@
 						"v1",
 						"produto",
 						"123456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GraphQL Recuperar produto",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "query produtoDetails {\n  produtoPorCodigo(codigo: \"2345\") {\n      descricao\n      categoria\n  }\n}\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/graphiql",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"graphiql"
 					]
 				}
 			},
