@@ -3,8 +3,10 @@ const simpleServer = express();
 const portNumber = 8088;
 
 simpleServer.get('/api/v1/hello', (req, resp) => {
+    console.log('request received');
+
     var respPayload = {
-        message: 'Hello World !'
+        message: 'Hello Node.js World !'
     }
 
     resp.send(respPayload);

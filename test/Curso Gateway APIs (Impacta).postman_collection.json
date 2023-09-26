@@ -4,7 +4,7 @@
 		"name": "Curso Gateway APIs (Impacta)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2006649",
-		"_collection_link": "https://getnetdigital.postman.co/workspace/Curso-de-Postman~98ff1d0e-fffe-450f-9bf2-78f601445463/collection/2006649-ad97ae22-a723-40a5-b50d-c1ae0cd6f4eb?action=share&creator=2006649&source=collection_link"
+		"_collection_link": "https://getnetdigital.postman.co/workspace/Curso-de-Postman~98ff1d0e-fffe-450f-9bf2-78f601445463/collection/2006649-ad97ae22-a723-40a5-b50d-c1ae0cd6f4eb?action=share&source=collection_link&creator=2006649"
 	},
 	"item": [
 		{
@@ -28,11 +28,42 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/v1/gateway/produto",
+									"raw": "https://localhost:8000/v1/gateway/produto",
+									"protocol": "https",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
+									"path": [
+										"v1",
+										"gateway",
+										"produto"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criar produto via Gateway HTTPS (OK)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"codigo\": \"4567\",\n    \"descricao\": \"teclado\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8443/v1/gateway/produto",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8443",
 									"path": [
 										"v1",
 										"gateway",
@@ -117,11 +148,406 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Recuperar produto Customizado",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8443/v1/gateway/produto-custom/3456",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8443",
+									"path": [
+										"v1",
+										"gateway",
+										"produto-custom",
+										"3456"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
-					"name": "Status do Gateway",
+					"name": "Balanceamento de Carga",
+					"item": [
+						{
+							"name": "Adicionar  Upstream",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//  check the HTTP return code",
+											"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+											"",
+											"//  Parse the service ID from the response",
+											"var jsonData = JSON.parse( responseBody );",
+											"",
+											"postman.setGlobalVariable( 'upstream-id', jsonData.id );",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Upstream-Hello\",\n    \"algorithm\": \"round-robin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8001/upstreams",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"upstreams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Adicionar Target Hello 1 (Java)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//  check the HTTP return code",
+											"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+											"",
+											"//  Parse the service ID from the response",
+											"var jsonData = JSON.parse( responseBody );",
+											"",
+											"postman.setGlobalVariable( 'service-id', jsonData.id );",
+											"postman.setGlobalVariable( 'service-name', jsonData.name );",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"target\": \"192.168.0.108:8080\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8001/upstreams/{{upstream-id}}/targets/",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"upstreams",
+										"{{upstream-id}}",
+										"targets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Adicionar Target Hello 2 (Node.js)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//  check the HTTP return code",
+											"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+											"",
+											"//  Parse the service ID from the response",
+											"var jsonData = JSON.parse( responseBody );",
+											"",
+											"postman.setGlobalVariable( 'service-id', jsonData.id );",
+											"postman.setGlobalVariable( 'service-name', jsonData.name );",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"target\": \"192.168.0.108:8088\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8001/upstreams/{{upstream-id}}/targets/",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"upstreams",
+										"{{upstream-id}}",
+										"targets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Adicionar  serviço Hello",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//  check the HTTP return code",
+											"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+											"",
+											"//  Parse the service ID from the response",
+											"var jsonData = JSON.parse( responseBody );",
+											"",
+											"postman.setGlobalVariable( 'service-id', jsonData.id );",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Hello\",\n    \"url\": \"http://upstream-hello/api/v1/hello\",\n    \"enabled\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8001/services",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"services"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultar lista dos Upstreams",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8001/upstreams/",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"upstreams",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultar lista dos Targets",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8001/upstreams/{{upstream-id}}/targets/all",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"upstreams",
+										"{{upstream-id}}",
+										"targets",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Adicionar  rota: Hello",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"hello\",\n    \"protocols\": [\"http\"],\n    \"methods\": [\"GET\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/gateway/hello\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"{{service-id}}\"}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8001/routes",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"routes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Chamar Hello Balanceado",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:8443/v1/gateway/hello",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "8443",
+									"path": [
+										"v1",
+										"gateway",
+										"hello"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir Upstream",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8001/upstreams/{{upstream-id}}",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"upstreams",
+										"{{upstream-id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir  rota: Hello",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8001/routes/hello",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"routes",
+										"hello"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Excluir  serviço: Hello",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8001/services/Hello",
+									"host": [
+										"localhost"
+									],
+									"port": "8001",
+									"path": [
+										"services",
+										"Hello"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Consultar Status do Gateway",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -137,12 +563,31 @@
 				},
 				{
 					"name": "Adicionar  serviço: Produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//  check the HTTP return code",
+									"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+									"",
+									"//  Parse the service ID from the response",
+									"var jsonData = JSON.parse( responseBody );",
+									"",
+									"postman.setGlobalVariable( 'service-id', jsonData.id );",
+									"postman.setGlobalVariable( 'service-name', jsonData.name );",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Produtos\",\n    \"url\": \"http://192.168.68.112:8080/api/v1/produto\",\n    \"enabled\": true\n}",
+							"raw": "{\n    \"name\": \"Produtos\",\n    \"url\": \"http://192.168.0.108:8080/api/v1/produto\",\n    \"enabled\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -163,19 +608,38 @@
 					"response": []
 				},
 				{
-					"name": "Verificar os serviços",
+					"name": "Consultar serviço pelo ID",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8001/services/531b80ae-a0b0-4f23-98e0-b91fad63c400",
+							"raw": "localhost:8001/services/{{service-id}}",
 							"host": [
 								"localhost"
 							],
 							"port": "8001",
 							"path": [
 								"services",
-								"531b80ae-a0b0-4f23-98e0-b91fad63c400"
+								"{{service-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar lista dos serviços",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/services/",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"services",
+								""
 							]
 						}
 					},
@@ -187,14 +651,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8001/services/Produtos",
+							"raw": "localhost:8001/services/{{service-name}}",
 							"host": [
 								"localhost"
 							],
 							"port": "8001",
 							"path": [
 								"services",
-								"Produtos"
+								"{{service-name}}"
 							]
 						}
 					},
@@ -207,7 +671,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"produto\",\n    \"protocols\": [\"http\", \"https\"],\n    \"methods\": [\"GET\", \"POST\", \"PATCH\", \"DELETE\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/gateway/produto\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"531b80ae-a0b0-4f23-98e0-b91fad63c400\"}\n}",
+							"raw": "{\n    \"name\": \"produto\",\n    \"protocols\": [\"http\", \"https\"],\n    \"methods\": [\"GET\", \"POST\", \"PATCH\", \"DELETE\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/gateway/produto\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"{{service-id}}\"}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -228,7 +692,25 @@
 					"response": []
 				},
 				{
-					"name": "Verificar os endpoints",
+					"name": "Consultar lista de rotas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/routes",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar os endpoints Copy",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -274,7 +756,362 @@
 					"response": []
 				},
 				{
-					"name": "Adicionar  consumidor: cliente",
+					"name": "Adicionar  rota: Produto Customizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//  check the HTTP return code",
+									"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+									"",
+									"//  Parse the service ID from the response",
+									"var jsonData = JSON.parse( responseBody );",
+									"",
+									"postman.setGlobalVariable( 'route-id', jsonData.id );",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"produto-custom\",\n    \"protocols\": [\"https\"],\n    \"methods\": [\"GET\"],\n    \"hosts\": [\"localhost\"],\n    \"paths\": [\"/v1/gateway/produto-custom\"],\n    \"https_redirect_status_code\": 426,\n    \"regex_priority\": 0,\n    \"strip_path\": true,\n    \"path_handling\": \"v1\",\n    \"preserve_host\": false,\n    \"request_buffering\": true,\n    \"response_buffering\": true,\n    \"tags\": [\"user-level\", \"low-priority\"],\n    \"service\": {\"id\":\"{{service-id}}\"}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/routes",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar transformação na rota: Produto Customizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"response-transformer\",\n\n    \"config\": {\n        \"remove\": {\n            \"json\": [\"sku\"]\n        },\n        \"add\": {\n            \"json\": [\"transformed:true\"]\n        }\n    }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/routes/{{route-id}}/plugins",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes",
+								"{{route-id}}",
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar rota customizada",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/routes/{{route-id}}/plugins",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes",
+								"{{route-id}}",
+								"plugins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar  certificado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//  check the HTTP return code",
+									"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+									"",
+									"//  Parse the service ID from the response",
+									"var jsonData = JSON.parse( responseBody );",
+									"",
+									"postman.setGlobalVariable( 'certificate-id', jsonData.id );",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cert\": \"-----BEGIN CERTIFICATE-----\\nMIID2zCCAsOgAwIBAgIUfRaNvTQH6PNavwIzsjWj8as/fkUwDQYJKoZIhvcNAQEL\\nBQAwfTELMAkGA1UEBhMCQlIxEjAQBgNVBAgMCVNhby1QYXVsbzEQMA4GA1UEBwwH\\nQmFydWVyaTERMA8GA1UECgwIR2F5ZW5kcmExEDAOBgNVBAMMB2FsZGViYXAxIzAh\\nBgkqhkiG9w0BCQEWFGFsZGViYV9ibGFAeWFob28uY29tMB4XDTIzMDkyNDIyNTgx\\nOFoXDTI0MDkyMzIyNTgxOFowfTELMAkGA1UEBhMCQlIxEjAQBgNVBAgMCVNhby1Q\\nYXVsbzEQMA4GA1UEBwwHQmFydWVyaTERMA8GA1UECgwIR2F5ZW5kcmExEDAOBgNV\\nBAMMB2FsZGViYXAxIzAhBgkqhkiG9w0BCQEWFGFsZGViYV9ibGFAeWFob28uY29t\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs3WT+HXIbO+IKEhWXEUi\\nnlJobpuUoTHVcaHjJAgEsHcs0pwLl7UAtcx1G2nBO1yzjypZ51LBgpyK2FnWOJ1O\\n1CIQFA4atoZnLuIE+OU/QjLcyQIJjQ9xrCS3HbelwCRCP4xTY7rR9d+2FvLeG6uL\\n/AmHg1uRk5oXAA4ngLh/8zY5YYF21zEAgUfKZCpnVSgjSDuIpjTl5x/GfQyr64KR\\nGbq5SOe6wRjO37maYtzHzk6E77P+Uxru5ZFxUrnVSrMVOPz2wlTiacE2sPlSebh4\\nf7fCaAoGT/67bRqGM3ArTRlLIEdVuXmU5e0NnF+XB35AE5qW8V97HRTr+Zta8GuN\\n/QIDAQABo1MwUTAdBgNVHQ4EFgQUDdOtpNQtIBxluJ5gBoxE74MFQlswHwYDVR0j\\nBBgwFoAUDdOtpNQtIBxluJ5gBoxE74MFQlswDwYDVR0TAQH/BAUwAwEB/zANBgkq\\nhkiG9w0BAQsFAAOCAQEAKsUULqSljkFZpw8Nk7n3rXJXccub7IyjhKpp6L0O5nOw\\nHnYGy1Ntg57yXPu5oPf9Yromac2cQT3oxqGTrY4dI7mCg7WleRIqHkdySGEAgpus\\n/jksoHJ2yIJN6mlYparLR10Jj7v6u5P/ls2JaSErSX+qNLYlR/ZJt2Un7duj94Z8\\nlxPJCkaY1bI/8wFDvs2KxMb1qnXQlrUQrhNv4dkTEO09GCXluYMa15kAmYxSRaE9\\nPhY6Us88hAfeq53AQ1eJxL06iBso+F57pUm2miAyvswBoH89i5litJEs/q3HtzEB\\ng161vnWpSuldk9/k81ChqochixqD23TI16xdKQbLYQ==\\n-----END CERTIFICATE-----\",\n    \"key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzdZP4dchs74go\\nSFZcRSKeUmhum5ShMdVxoeMkCASwdyzSnAuXtQC1zHUbacE7XLOPKlnnUsGCnIrY\\nWdY4nU7UIhAUDhq2hmcu4gT45T9CMtzJAgmND3GsJLcdt6XAJEI/jFNjutH137YW\\n8t4bq4v8CYeDW5GTmhcADieAuH/zNjlhgXbXMQCBR8pkKmdVKCNIO4imNOXnH8Z9\\nDKvrgpEZurlI57rBGM7fuZpi3MfOToTvs/5TGu7lkXFSudVKsxU4/PbCVOJpwTaw\\n+VJ5uHh/t8JoCgZP/rttGoYzcCtNGUsgR1W5eZTl7Q2cX5cHfkATmpbxX3sdFOv5\\nm1rwa439AgMBAAECggEAKUM55mlIj/mkbCSzzKvtyYrnrbTyn/yqF+JR7HU2hM+m\\nG/fat4Nb+jEcZRT0I97M/3hMqyJNUaeGSjgfyC0tVJvPaBkVHc45997qp0LowGMa\\n/lHMWeWI7LyVaQ0SnKMJo3xzqQzp3VeWkeC+XozbVzRmtvaNOqu1qaLXhOKHMues\\nTMbOlk64Ar9S5miErwdu9OIhGKKhwoFLGxtMea52vA2E8zdn8bEDPUhVMX9Gue4H\\ntBF6CcRzhtHjBUshdMbN6isxkpuDlk5ZxLlDHCvKo7U+QjxlTDGV8XAcFqse6lt8\\nYdyCSGMW5/1C372oTMzyUTqRg7ekiEt4j67LV/XW2QKBgQDltgupK5XkRhxWuo/j\\nDs8yt0GOnmvCO3/ql30HGP8OC7kBCW21f/+tGpeeJv5Pc5WXAbDubwyiOenUcXFR\\nAXhklh5SCjVln4uW9FigBZj1o65CwowEoX6ib1QVAOOduu6wQ+V/zyJ94Am+8V6q\\nJeFYUWa0il1R85nXLIVOwRq+dQKBgQDH/0f2IJGPuLlaPkp8MiD2PDWafUjtOA6m\\nSTgS2+9e+ozboshqt98ycIXmrY8AT/BKFotPecyxNtHp0+XULFgH2CyqJok2xgou\\nrekgnl4PBGMzNtVBmKNFRsZv/rmzBwNI1lgxJ8/lhUI0btiCHasbHwtOhukmJt5j\\nMpRlqRewaQKBgQChvMv5EPc5AyRw7GrjNEovK1i9Uk4NNFeclY0ysibjfN2GHV1h\\nrf4Xo+GdOVdWGcv5xvcM6qO6lYxOSJHAt4hNSmWO3iE6rFtcri64fTh1vAm2d8Se\\nfhbrx/cr0rRxGm11Llko5G8ksdoq10gQBRvlU2s9My8BxMNM/cve55gtAQKBgEp2\\nuQNh8vBxFcoM4UzGmVE077xao1l3grTVFCSpcMGLRgDM5hQd6+Nq0+AkhNbX7J6Z\\nMDtiHR1qTNPjynGqJQieq1qayIH1UHs6008Kx/iNaKX754Dp5Ph5No8iZ1/J36Yx\\n8Fo0+Yn6iMDe+IvRohCSCXKudoZ2+Fw0y93iDGjpAoGBAKBU9oK1Fs3FKEt5Wy4L\\nzVEtPqC91qnJiNeBmKhL76Z2E07oYLamHm11hHNtPnPmVMyhIQz4GkEhKLH0g/yo\\n3okejkKf51SwpP3Lpi8FcU3Byv/dIH4X5/W+F6Z0idZPiqAphWfkgZx/w36VmJpl\\nSjSF6FjMeWMViYyXRi0RqNvF\\n-----END PRIVATE KEY-----\",\n    \"tags\": [\"user-level\", \"low-priority\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/certificates",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"certificates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar certificados",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"7fca84d6-7d37-4a74-a7b0-93e576089a41\",\n    \"created_at\": 1422386534,\n    \"updated_at\": 1422386534,\n    \"cert\": \"-----BEGIN CERTIFICATE-----...\",\n    \"key\": \"-----BEGIN RSA PRIVATE KEY-----...\",\n    \"cert_alt\": \"-----BEGIN CERTIFICATE-----...\",\n    \"key_alt\": \"-----BEGIN EC PRIVATE KEY-----...\",\n    \"tags\": [\"user-level\", \"low-priority\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/certificates",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"certificates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar certificado pelo ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"7fca84d6-7d37-4a74-a7b0-93e576089a41\",\n    \"created_at\": 1422386534,\n    \"updated_at\": 1422386534,\n    \"cert\": \"-----BEGIN CERTIFICATE-----...\",\n    \"key\": \"-----BEGIN RSA PRIVATE KEY-----...\",\n    \"cert_alt\": \"-----BEGIN CERTIFICATE-----...\",\n    \"key_alt\": \"-----BEGIN EC PRIVATE KEY-----...\",\n    \"tags\": [\"user-level\", \"low-priority\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/certificates/{{certificate-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"certificates",
+								"{{certificate-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir certificado pelo ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"7fca84d6-7d37-4a74-a7b0-93e576089a41\",\n    \"created_at\": 1422386534,\n    \"updated_at\": 1422386534,\n    \"cert\": \"-----BEGIN CERTIFICATE-----...\",\n    \"key\": \"-----BEGIN RSA PRIVATE KEY-----...\",\n    \"cert_alt\": \"-----BEGIN CERTIFICATE-----...\",\n    \"key_alt\": \"-----BEGIN EC PRIVATE KEY-----...\",\n    \"tags\": [\"user-level\", \"low-priority\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/certificates/{{certificate-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"certificates",
+								"{{certificate-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar  CA Certificates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//  check the HTTP return code",
+									"tests[ \"HTTP retornou 201 Created\" ] = responseCode.code === 201;",
+									"",
+									"//  Parse the service ID from the response",
+									"var jsonData = JSON.parse( responseBody );",
+									"",
+									"postman.setGlobalVariable( 'ca-certificate-id', jsonData.id );",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cert\": \"-----BEGIN CERTIFICATE-----\\nMIID2zCCAsOgAwIBAgIUfRaNvTQH6PNavwIzsjWj8as/fkUwDQYJKoZIhvcNAQEL\\nBQAwfTELMAkGA1UEBhMCQlIxEjAQBgNVBAgMCVNhby1QYXVsbzEQMA4GA1UEBwwH\\nQmFydWVyaTERMA8GA1UECgwIR2F5ZW5kcmExEDAOBgNVBAMMB2FsZGViYXAxIzAh\\nBgkqhkiG9w0BCQEWFGFsZGViYV9ibGFAeWFob28uY29tMB4XDTIzMDkyNDIyNTgx\\nOFoXDTI0MDkyMzIyNTgxOFowfTELMAkGA1UEBhMCQlIxEjAQBgNVBAgMCVNhby1Q\\nYXVsbzEQMA4GA1UEBwwHQmFydWVyaTERMA8GA1UECgwIR2F5ZW5kcmExEDAOBgNV\\nBAMMB2FsZGViYXAxIzAhBgkqhkiG9w0BCQEWFGFsZGViYV9ibGFAeWFob28uY29t\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs3WT+HXIbO+IKEhWXEUi\\nnlJobpuUoTHVcaHjJAgEsHcs0pwLl7UAtcx1G2nBO1yzjypZ51LBgpyK2FnWOJ1O\\n1CIQFA4atoZnLuIE+OU/QjLcyQIJjQ9xrCS3HbelwCRCP4xTY7rR9d+2FvLeG6uL\\n/AmHg1uRk5oXAA4ngLh/8zY5YYF21zEAgUfKZCpnVSgjSDuIpjTl5x/GfQyr64KR\\nGbq5SOe6wRjO37maYtzHzk6E77P+Uxru5ZFxUrnVSrMVOPz2wlTiacE2sPlSebh4\\nf7fCaAoGT/67bRqGM3ArTRlLIEdVuXmU5e0NnF+XB35AE5qW8V97HRTr+Zta8GuN\\n/QIDAQABo1MwUTAdBgNVHQ4EFgQUDdOtpNQtIBxluJ5gBoxE74MFQlswHwYDVR0j\\nBBgwFoAUDdOtpNQtIBxluJ5gBoxE74MFQlswDwYDVR0TAQH/BAUwAwEB/zANBgkq\\nhkiG9w0BAQsFAAOCAQEAKsUULqSljkFZpw8Nk7n3rXJXccub7IyjhKpp6L0O5nOw\\nHnYGy1Ntg57yXPu5oPf9Yromac2cQT3oxqGTrY4dI7mCg7WleRIqHkdySGEAgpus\\n/jksoHJ2yIJN6mlYparLR10Jj7v6u5P/ls2JaSErSX+qNLYlR/ZJt2Un7duj94Z8\\nlxPJCkaY1bI/8wFDvs2KxMb1qnXQlrUQrhNv4dkTEO09GCXluYMa15kAmYxSRaE9\\nPhY6Us88hAfeq53AQ1eJxL06iBso+F57pUm2miAyvswBoH89i5litJEs/q3HtzEB\\ng161vnWpSuldk9/k81ChqochixqD23TI16xdKQbLYQ==\\n-----END CERTIFICATE-----\",\n    \"tags\": [\"user-level\", \"low-priority\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/ca_certificates",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"ca_certificates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar lista de CA Certificates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cert\": \"-----BEGIN CERTIFICATE-----\\nMIID2zCCAsOgAwIBAgIUfRaNvTQH6PNavwIzsjWj8as/fkUwDQYJKoZIhvcNAQEL\\nBQAwfTELMAkGA1UEBhMCQlIxEjAQBgNVBAgMCVNhby1QYXVsbzEQMA4GA1UEBwwH\\nQmFydWVyaTERMA8GA1UECgwIR2F5ZW5kcmExEDAOBgNVBAMMB2FsZGViYXAxIzAh\\nBgkqhkiG9w0BCQEWFGFsZGViYV9ibGFAeWFob28uY29tMB4XDTIzMDkyNDIyNTgx\\nOFoXDTI0MDkyMzIyNTgxOFowfTELMAkGA1UEBhMCQlIxEjAQBgNVBAgMCVNhby1Q\\nYXVsbzEQMA4GA1UEBwwHQmFydWVyaTERMA8GA1UECgwIR2F5ZW5kcmExEDAOBgNV\\nBAMMB2FsZGViYXAxIzAhBgkqhkiG9w0BCQEWFGFsZGViYV9ibGFAeWFob28uY29t\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs3WT+HXIbO+IKEhWXEUi\\nnlJobpuUoTHVcaHjJAgEsHcs0pwLl7UAtcx1G2nBO1yzjypZ51LBgpyK2FnWOJ1O\\n1CIQFA4atoZnLuIE+OU/QjLcyQIJjQ9xrCS3HbelwCRCP4xTY7rR9d+2FvLeG6uL\\n/AmHg1uRk5oXAA4ngLh/8zY5YYF21zEAgUfKZCpnVSgjSDuIpjTl5x/GfQyr64KR\\nGbq5SOe6wRjO37maYtzHzk6E77P+Uxru5ZFxUrnVSrMVOPz2wlTiacE2sPlSebh4\\nf7fCaAoGT/67bRqGM3ArTRlLIEdVuXmU5e0NnF+XB35AE5qW8V97HRTr+Zta8GuN\\n/QIDAQABo1MwUTAdBgNVHQ4EFgQUDdOtpNQtIBxluJ5gBoxE74MFQlswHwYDVR0j\\nBBgwFoAUDdOtpNQtIBxluJ5gBoxE74MFQlswDwYDVR0TAQH/BAUwAwEB/zANBgkq\\nhkiG9w0BAQsFAAOCAQEAKsUULqSljkFZpw8Nk7n3rXJXccub7IyjhKpp6L0O5nOw\\nHnYGy1Ntg57yXPu5oPf9Yromac2cQT3oxqGTrY4dI7mCg7WleRIqHkdySGEAgpus\\n/jksoHJ2yIJN6mlYparLR10Jj7v6u5P/ls2JaSErSX+qNLYlR/ZJt2Un7duj94Z8\\nlxPJCkaY1bI/8wFDvs2KxMb1qnXQlrUQrhNv4dkTEO09GCXluYMa15kAmYxSRaE9\\nPhY6Us88hAfeq53AQ1eJxL06iBso+F57pUm2miAyvswBoH89i5litJEs/q3HtzEB\\ng161vnWpSuldk9/k81ChqochixqD23TI16xdKQbLYQ==\\n-----END CERTIFICATE-----\",\n    \"tags\": [\"user-level\", \"low-priority\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8001/ca_certificates",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"ca_certificates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir  CA Certificates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8001/ca_certificates/{{ca-certificate-id}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"ca_certificates",
+								"{{ca-certificate-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar  consumidor: cliente Copy",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -571,7 +1408,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"vhost\":\"/\",\n    \"name\":\"amq.default\",\n    \"properties\":{\n        \"delivery_mode\":1,\n        \"headers\":{}\n    },\n    \"routing_key\":\"com.impacta.messagingSrv.inserirProdutoQueue.resp\",\n    \"payload\":\"{ \\\"codigo\\\": \\\"1234\\\", \\\"descricao\\\": \\\"teclado\\\" }\",\n    \"payload_encoding\":\"string\"\n}\n",
+							"raw": "{\n    \"vhost\":\"/\",\n    \"name\":\"amq.default\",\n    \"properties\":{\n        \"delivery_mode\":1,\n        \"headers\":{}\n    },\n    \"routing_key\":\"com.impacta.messagingSrv.inserirProdutoQueue.req\",\n    \"payload\":\"{ \\\"codigo\\\": \\\"1234\\\", \\\"descricao\\\": \\\"teclado\\\" }\",\n    \"payload_encoding\":\"string\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -625,7 +1462,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"codigo\": \"1234\",\n    \"descricao\": \"teclado\"\n}\n",
+					"raw": "{\n    \"codigo\": \"2345\",\n    \"descricao\": \"mouse\",\n    \"categoria\": \"acessorios\",\n    \"sku\": \"7834759-382985\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -711,7 +1548,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/v1/produto/1234",
+					"raw": "localhost:8080/api/v1/produto/2345",
 					"host": [
 						"localhost"
 					],
@@ -720,7 +1557,7 @@
 						"api",
 						"v1",
 						"produto",
-						"1234"
+						"2345"
 					]
 				}
 			},
@@ -749,19 +1586,14 @@
 		},
 		{
 			"name": "GraphQL Recuperar produto",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "query produtoDetails {\n  produtoPorCodigo(codigo: \"2345\") {\n      descricao\n      categoria\n  }\n}\n",
-					"options": {
-						"raw": {
-							"language": "text"
-						}
+					"mode": "graphql",
+					"graphql": {
+						"query": "query produtoDetails {\n  produtoPorCodigo(codigo: \"2345\") {\n      descricao\n      categoria\n  }\n}\n",
+						"variables": ""
 					}
 				},
 				"url": {

@@ -17,6 +17,7 @@ public class ProdutoQLCtrl {
 
     @QueryMapping
     public Produto produtoPorCodigo(@Argument String codigo) {
+        System.out.printf("GraphQL query: %s\n", codigo);
         return produtoService.RecuperarProduto(codigo);
     }
 }

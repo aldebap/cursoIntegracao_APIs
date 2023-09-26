@@ -1,20 +1,35 @@
 #!  /usr/bin/sh
 
-#   run Postgres and Kong containers
+#   Postgres variables
+POSTGRES_DB=kong
+POSTGRES_USER=kong
+POSTGRES_PASSWORD=kongpasswd
+
+#   run Postgres containers
 docker run -d --name kong-db \
     --network=kong-net \
     -p 5432:5432 \
-    -e "POSTGRES_USER=kong" \
-    -e "POSTGRES_DB=kong" \
-    -e "POSTGRES_PASSWORD=kongpass" \
+    -e "POSTGRES_DB=${POSTGRES_DB}" \
+    -e "POSTGRES_USER=${POSTGRES_USER}" \
+    -e "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" \
     postgres:13
 
+#   configure Kong
+docker run --rm \
+    --network=kong-net \
+    -e "KONG_DATABASE=postgres" \
+    -e "KONG_PG_HOST=kong-db" \
+    -e "KONG_PG_PASSWORD=${POSTGRES_PASSWORD}" \
+    -e "KONG_PASSWORD=test" \
+    kong/kong-gateway:3.3.0.0 kong migrations bootstrap
+
+#   run Kong containers
 docker run -d --name kong-gateway \
     --network=kong-net \
     -e "KONG_DATABASE=postgres" \
     -e "KONG_PG_HOST=kong-db" \
-    -e "KONG_PG_USER=kong" \
-    -e "KONG_PG_PASSWORD=kongpass" \
+    -e "KONG_PG_USER=${POSTGRES_USER}" \
+    -e "KONG_PG_PASSWORD=${POSTGRES_PASSWORD}" \
     -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
     -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
     -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
