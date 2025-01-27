@@ -1,5 +1,6 @@
 #!  /usr/bin/sh
 
 #   stop Postgres and Kong containers
-docker stop kong-db kong-gateway
-docker rm kong-db kong-gateway
+docker kill kong-db kong-gateway
+docker container rm kong-db kong-gateway
+docker network rm kong-net

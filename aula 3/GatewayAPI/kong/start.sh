@@ -5,6 +5,8 @@ POSTGRES_DB=kong
 POSTGRES_USER=kong
 POSTGRES_PASSWORD=kongpasswd
 
+docker network create kong-net
+
 #   run Postgres containers
 docker run -d --name kong-db \
     --network=kong-net \
@@ -48,6 +50,17 @@ docker run -d --name kong-gateway \
     -p 8003:8003 \
     -p 8004:8004 \
     kong/kong-gateway:3.3.0.0
+
+#   run Kong Admin (konga) container
+docker run -d --name kong-admin \
+    --network=kong-net \
+    -e "DB_ADAPTER=postgres" \
+    -e "DB_HOST=localhost:5432" \
+    -e "DB_USER=${POSTGRES_USER}" \
+    -e "DB_PASSWORD=${POSTGRES_PASSWORD}" \
+    -e "DB_DATABASE=${POSTGRES_DB}" \
+    -p 1337:1337 \
+    pantsel/konga
 
 #   enable Kong Portal
 curl -i -X PATCH http://localhost:8001/workspaces/default --data "config.portal=true"

@@ -1,7 +1,7 @@
 package com.impacta.simplesrv.simplesrv.domain;
 
 public class Hello {
-    private String message = "Hello World !";
+    private String message = "Hello Java World !";
 
     public Hello() {
     }

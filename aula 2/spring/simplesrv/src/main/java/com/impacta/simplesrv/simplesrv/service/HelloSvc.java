@@ -8,6 +8,6 @@ import com.impacta.simplesrv.simplesrv.domain.Hello;
 public class HelloSvc {
 
     public Hello GetHelloMessage() {
-        return new Hello();
+        return new Hello("Hello Imapacta !");
     }
 }

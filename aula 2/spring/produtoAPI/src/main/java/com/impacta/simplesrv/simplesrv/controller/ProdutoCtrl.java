@@ -32,11 +32,12 @@ public class ProdutoCtrl {
         this.produtoService = produtoService;
     }
 
+    public interface ProdutoCtrlResponse {}
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public class ProdutoResponse {
+    public class ProdutoResponse implements ProdutoCtrlResponse {
         private String codigo;
         private String descricao;
-        private String mensagem;
         private String SKU;
         private String categoria;
 
@@ -45,7 +46,6 @@ public class ProdutoCtrl {
             this.descricao = "";
             this.SKU = "";
             this.categoria = "";
-            this.mensagem = null;
         }
 
         public ProdutoResponse(Produto produto) {
@@ -53,15 +53,6 @@ public class ProdutoCtrl {
             this.descricao = produto.getDescricao();
             this.SKU = produto.getSKU();
             this.categoria = produto.getCategoria();
-            this.mensagem = null;
-        }
-
-        public ProdutoResponse(String mensagem) {
-            this.codigo = null;
-            this.descricao = null;
-            this.SKU = null;
-            this.categoria = null;
-            this.mensagem = mensagem;
         }
 
         public void setCodigo(String codigo) {
@@ -95,6 +86,19 @@ public class ProdutoCtrl {
         public String getCategoria() {
             return categoria;
         }
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public class MessageResponse implements ProdutoCtrlResponse {
+        private String mensagem;
+
+        public MessageResponse() {
+            this.mensagem = null;
+        }
+
+        public MessageResponse(String mensagem) {
+            this.mensagem = mensagem;
+        }
 
         public void setMensagem(String mensagem) {
             this.mensagem = mensagem;
@@ -107,27 +111,27 @@ public class ProdutoCtrl {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ProdutoResponse> postProduto(@RequestBody Produto produto) {
+    public ResponseEntity<ProdutoCtrlResponse> postProduto(@RequestBody Produto produto) {
         try {
             Produto novoProduto = this.produtoService.InserirProduto(produto);
 
-            return new ResponseEntity<ProdutoResponse>(new ProdutoResponse(novoProduto), HttpStatus.CREATED);
+            return new ResponseEntity<ProdutoCtrlResponse>(new ProdutoResponse(novoProduto), HttpStatus.CREATED);
         } catch (CodigoProdutoObrigatorioException e) {
-            return new ResponseEntity<ProdutoResponse>(new ProdutoResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ProdutoCtrlResponse>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (DescricaoProdutoObrigatorioException e) {
-            return new ResponseEntity<ProdutoResponse>(new ProdutoResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ProdutoCtrlResponse>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<ProdutoResponse> getProduto(@PathVariable("codigo") String codigo) {
+    public ResponseEntity<ProdutoCtrlResponse> getProduto(@PathVariable("codigo") String codigo) {
         Produto produto = this.produtoService.RecuperarProduto(codigo);
 
         if (produto == null) {
-            return new ResponseEntity<ProdutoResponse>(new ProdutoResponse("Codigo inexistente"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<ProdutoCtrlResponse>(new MessageResponse("Codigo inexistente"), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<ProdutoResponse>(new ProdutoResponse(produto), HttpStatus.OK);
+        return new ResponseEntity<ProdutoCtrlResponse>(new ProdutoResponse(produto), HttpStatus.OK);
     }
 
     @GetMapping("")
@@ -143,30 +147,30 @@ public class ProdutoCtrl {
     }
 
     @PatchMapping("/{codigo}")
-    public ResponseEntity<ProdutoResponse> patchProduto(@PathVariable("codigo") String codigo,
+    public ResponseEntity<ProdutoCtrlResponse> patchProduto(@PathVariable("codigo") String codigo,
             @RequestBody Produto produto) {
         try {
             Produto produtoAux = this.produtoService.AtualizarProduto(codigo, produto);
 
             if (produtoAux == null) {
-                return new ResponseEntity<ProdutoResponse>(new ProdutoResponse("Codigo inexistente"),
+                return new ResponseEntity<ProdutoCtrlResponse>(new MessageResponse("Codigo inexistente"),
                         HttpStatus.NOT_FOUND);
             }
 
-            return new ResponseEntity<ProdutoResponse>(new ProdutoResponse(produtoAux), HttpStatus.OK);
+            return new ResponseEntity<ProdutoCtrlResponse>(new ProdutoResponse(produtoAux), HttpStatus.OK);
         } catch (DescricaoProdutoObrigatorioException e) {
-            return new ResponseEntity<ProdutoResponse>(new ProdutoResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ProdutoCtrlResponse>(new MessageResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/{codigo}")
-    public ResponseEntity<ProdutoResponse> deleteProduto(@PathVariable("codigo") String codigo) {
+    public ResponseEntity<ProdutoCtrlResponse> deleteProduto(@PathVariable("codigo") String codigo) {
         Produto produto = this.produtoService.ExcluirProduto(codigo);
 
         if (produto == null) {
-            return new ResponseEntity<ProdutoResponse>(new ProdutoResponse("Codigo inexistente"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<ProdutoCtrlResponse>(new MessageResponse("Codigo inexistente"), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<ProdutoResponse>(new ProdutoResponse(""), HttpStatus.OK);
+        return new ResponseEntity<ProdutoCtrlResponse>(new MessageResponse(""), HttpStatus.OK);
     }
 }

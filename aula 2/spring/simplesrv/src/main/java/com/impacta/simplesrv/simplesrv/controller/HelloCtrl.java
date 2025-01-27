@@ -9,7 +9,7 @@ import com.impacta.simplesrv.simplesrv.service.HelloSvc;
 
 @RestController
 
-@RequestMapping("/api/v1/hello")
+@RequestMapping("/api")
 public class HelloCtrl {
     private final HelloSvc helloService;
 
@@ -17,7 +17,7 @@ public class HelloCtrl {
         this.helloService = new HelloSvc();
     }
 
-    @GetMapping("")
+    @GetMapping("v1/hello")
     public ResponseEntity getHelloMessage() {
         return ResponseEntity.ok(this.helloService.GetHelloMessage());
     }
