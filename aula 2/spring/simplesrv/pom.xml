@@ -7,6 +7,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<!-- <version>2.7.12</version> -->
 		<version>3.1.0</version>
+		<!-- <version>3.4.3</version> -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.impacta.simplesrv</groupId>
@@ -37,6 +38,14 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.graalvm.buildtools</groupId>
 				<artifactId>native-maven-plugin</artifactId>
